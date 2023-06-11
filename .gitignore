@@ -1,3 +1,2 @@
 __pycache__
-*.txt
-!maguefy-logo.txt
+dados/*.txt
