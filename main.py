@@ -6,7 +6,7 @@ def inicio():
     print("Seja bem vindo ao MANGUEFY")
     time.sleep(2)
     os.system("cls")
-    print("O Manguefy é um aplicativo projetado para você conhecer mais da cultura recifense e do\nManguebeat, movimento cultural extremamente significativo.\nAqui você vai poder fazer rotas interativas e ter acesso a mídias que se conectam por meio da geolocalização com a rota que você estiver fazendo.\nOs áudios disponibilizados têm relação direta com os locais que você estiver, tornando a experiência de conhecer a cultura mais dinámica e acessível no dia a dia.")
+    print("O Manguefy é um aplicativo projetado para você conhecer mais da cultura recifense e do\nManguebeat, movimento cultural extremamente significativo.\nAqui você vai poder fazer rotas interativas e ter acesso a mídias que se conectam por meio da geolocalização com a rota que você estiver fazendo.\nOs áudios disponibilizados têm relação direta com os locais que você estiver, tornando a experiência de conhecer a cultura mais dinámica e acessível no dia a dia.\n")
     avanc=input("Avançar? ").lower
     if avanc==("sim"):
         return
@@ -137,62 +137,77 @@ def informacoes():
             os.system("cls")
             w = 'x'
 
-
 def passeio():
-    os.system("clear")
-    print("Qual será a forma de passeio?")
-    print("1 - A pé")
-    print("2 - De carro")
-    print("3 - De de bicicleta")
-    opcao = int(input("Qual a sua opção? "))
-    if opcao == 1:
-        print("Você escolheu a opção 1 - A pé")
-    elif opcao == 2:
-        print("Você escolheu a opção 2 - De carro")
-    elif opcao == 3:
-        print("Você escolheu a opção 3 - De bicicleta")
-    elif opcao == 4:
-        #return opcao anterior
-        print() 
-    else:
-        print("Opção inválida!")
-    print ("fazer um passeio \n Como você quer seguir sua rota?")
+    while True:
+        print("X min\nX km - Tempo até o proximo ponto: ")
+        ask=("1 - Conta\n2- Sair")
+        if ask == "1":
+            conta()
+        if ask == "2":
+            break
+            
+
+def configpasseio():
+    opcao="1"
+    while opcao == "1" or "2" or "3":
+        print("Qual será a forma de passeio?")
+        print("1 - A pé")
+        print("2 - De carro")
+        print("3 - De de bicicleta")
+        opcao = int(input("Qual a sua opção? "))
+        if opcao == 1:
+            os.system("cls")
+            print("Você escolheu a opção 1 - A pé")
+            break
+        elif opcao == 2:
+            os.system("cls")
+            print("Você escolheu a opção 2 - De carro")
+            break
+        elif opcao == 3:
+            os.system("cls")
+            print("Você escolheu a opção 3 - De bicicleta")
+            break
+        else:
+            os.system("cls")
+            print("Opção inválida!")
+
+    print ("\nFazer um passeio \nComo você quer seguir sua rota?")
     print("1 - Rota definida")
     print("2 - Rota personalizada")
     opcao1 = int(input("Qual a sua opção? "))
+    os.system("cls")
     if opcao1 == 1:
-        print("1 - Rota Manguebeat\n 2 - Rota Artesanato\n 3 - Rota dos Poetas\n 4 - Rota do Carnaval\n 5 - Rota do Praieira\n 6 - Rota da Lama ao Caos")
-        sair = input("Sair")
-        if sair == "sair":
-            print()
-            #return opcao anterior
-    buscar = []
-    if opcao1 == 2:
-        while True:
-            concluir = input("Concluir")
-            if concluir == "concluir":
-                buscando = int(input("Buscar"))
-                buscando.append(buscar)
-                print("Localização Salva", buscar)
-                tirar = input("Tirar localização")
-                if tirar == "sim" or "Sim":
-                    palavra = buscando
-                    buscando.remove(palavra)
+        opc=int(input("1 - Rota Manguebeat\n2 - Rota Artesanato\n3 - Rota dos Poetas\n4 - Rota do Carnaval\n5 - Rota do Praieira\n6 - Rota da Lama ao Caos\n7 - Sair\n"))
+        if opc == 7:
+            exit()
+    else:
+        buscar=[]
+        if opcao1 == 2:
+            while True:
+                ask=input("Opções:\n1 - Conta \n2 - Selecionar pontos\n3 - Concluir Seleção")
+                if ask=="1":
+                    conta()
+                if ask == "2":
+                    print("Selecione o pontos de parada: ")
+                    buscar.append(input(""))
+                if ask == "3":
+                    if not buscar:
+                        print("Você não fez nenhuma seleção")
+                        continue
+                    else:
+                        print("O tempo estimado de passeio é: ")
+                        print("(X km)")
+                        ask=input("Inciar passeio? [S/N]").lower
+                        if ask == "s":
+                            passeio()
+                        
+
                 else:
-                    print()
-            elif concluir == "sair":
-                print("saindo")
-                #return opcao anterior or BREAK!!! 
-            Localização = input("Sua localização")
-            if Localização == True:
-                print()
-                #return opcao anterior (ESSE LOCALIZAÇÃO SERVE COMO GPS DO GOOGLE PARA FACILITAR A LOCALIZAÇÃO ATUAL // SEM FUÇÃO ATUAL)
-            cont = input('concluir Seleção?')
-            if cont == 'sim':
-                print()
-                break
-            else:
-                print('continuando a adicionar...')
+                    print("Opção invalida.")
+
+   
+
+                
 
 def telacommapa():
     ask=input("Informações, conta ou Fazer um passeio? ").lower
@@ -208,6 +223,5 @@ def telacommapa():
 
 inicio()
 menu()
-
 
 
