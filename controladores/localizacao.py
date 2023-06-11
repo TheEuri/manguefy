@@ -2,7 +2,7 @@ import os
 import time
 
 def limpar_tela():
-    # Se for em um dispositivo Ios, usa o clear, caso não, usa cls.
+    # Se for em um dispositivo linux, usa o clear, caso não, usa cls.
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def verificar_permissao_localizacao(usuario):
@@ -22,7 +22,12 @@ def verificar_permissao_localizacao(usuario):
 
 def pedir_permissao_localizacao(usuario):
     arquivo = open('./dados/localizacao.txt', 'a')
-    escolha = input('Deseja permitir o acesso a sua localização? (S/N): ')
+
+    print('-' * 35, 'Entenda melhor a nossa proposta', '-' * 35)
+    print('O aplicativo funciona através de geolocalização, ativando sons específicos ao passar por pontos \nturísticos da cidade de Recife. Por isso, para o funcionamento do Manguefy, é necessário a permissão \ndo acesso a sua localização.')
+    print('-' * 103)
+
+    escolha = input('\nDeseja permitir o acesso a sua localização? (S/N): ')
     aceito = False
     if escolha.lower() == 's':
         print('Permissão concedida.')
@@ -32,7 +37,7 @@ def pedir_permissao_localizacao(usuario):
             arquivo.write(usuario + '|' + '1' + '\n')
         aceito = True
     else:
-        print('Texto explicando que o acesso a localização é necessário para o funcionamento do programa.')
+        print('O aplicativo precisa utilizar a sua localização para funcionar adequadamente.')
         time.sleep(2)
     arquivo.close()
 

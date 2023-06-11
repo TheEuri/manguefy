@@ -1,15 +1,12 @@
 from controladores import autenticacao
 from controladores import localizacao
-from controladores import informacoes
+from controladores import sobre
 from time import sleep
 
 while True:
-    with open('./misc/manguefy-logo.txt', 'r') as logo:
-        print(logo.read())
-        print("Iniciando...")
-        sleep(2)
-        localizacao.limpar_tela()
-    informacoes.informacoes()
+    sobre.boasvindas()
+
+    # Mostra o menu de cadastro e login
     usuario_atual = autenticacao.menu_cadastro_login()
 
     if usuario_atual == '\sair_programa':
@@ -23,4 +20,6 @@ while True:
                 loop_localizacao = False
             else:
                 loop_localizacao = not localizacao.pedir_permissao_localizacao(usuario_atual)
+                
+        
         break

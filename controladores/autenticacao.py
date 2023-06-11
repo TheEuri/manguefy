@@ -4,7 +4,7 @@ import time
 from controladores import localizacao
 
 def limpar_tela():
-    # Se for em um dispositivo Ios, usa o clear, caso não, usa cls.
+    # Se for em um dispositivo linux, usa o clear, caso não, usa cls.
     os.system('cls' if os.name == 'nt' else 'clear')
 
 def cabecalho(escolha):
@@ -86,7 +86,7 @@ def login():
     cabecalho("Login")
     print("Usuário ou senha inválido.")
     time.sleep(2)
-    return False
+    return False, None
 
 
 def menu_cadastro_login():
@@ -105,13 +105,13 @@ def menu_cadastro_login():
         if opcao == '1':
             registrar()
         elif opcao == '2':
-            return True
+            return "VISITANTE"
         elif opcao == '3':
             logado, usuario_atual = login()
             if logado:
                 return usuario_atual  # Retorna o nome do usuário logado para usar no futuro
             else:
-                pass  # Se o usuário não for logado, volta para o menu_cadastro_login
+                continue  # Se o usuário não for logado, volta para o menu_cadastro_login
         elif opcao == '4':
             limpar_tela()
             print("Saindo...")
