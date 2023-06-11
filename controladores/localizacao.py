@@ -7,10 +7,10 @@ def limpar_tela():
 
 def verificar_permissao_localizacao(usuario):
     # Tenta abrir o arquivo, se não existir, cria um novo.
-    open('localizacao.txt', 'a').close()
+    open('./dados/localizacao.txt', 'a').close()
     if usuario == 'VISTANTE':
         return
-    arquivo = open('localizacao.txt', 'r')
+    arquivo = open('./dados/localizacao.txt', 'r')
     localizacao = arquivo.readlines()
     arquivo.close()
     for aceites in localizacao:
@@ -21,7 +21,7 @@ def verificar_permissao_localizacao(usuario):
 
 
 def pedir_permissao_localizacao(usuario):
-    arquivo = open('localizacao.txt', 'a')
+    arquivo = open('./dados/localizacao.txt', 'a')
     escolha = input('Deseja permitir o acesso a sua localização? (S/N): ')
     aceito = False
     if escolha.lower() == 's':
@@ -33,6 +33,7 @@ def pedir_permissao_localizacao(usuario):
         aceito = True
     else:
         print('Texto explicando que o acesso a localização é necessário para o funcionamento do programa.')
+        time.sleep(2)
     arquivo.close()
 
     return aceito

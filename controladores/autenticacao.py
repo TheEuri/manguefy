@@ -1,7 +1,7 @@
 import os
 # Utilizado para dar um tempo ao mostrar informações antes de voltar ao menu_cadastro_login.
 import time
-import localizacao
+from controladores import localizacao
 
 def limpar_tela():
     # Se for em um dispositivo Ios, usa o clear, caso não, usa cls.
@@ -15,14 +15,14 @@ def cabecalho(escolha):
 def registrar():
     try:
         # Tenta abrir o arquivo, se não existir, cria um novo.
-        open('armazenamento_cadastros.txt', 'a').close()
+        open('./dados/armazenamento_cadastros.txt', 'a').close()
 
         cabecalho("Registrar")
         usuario = input("Digite o nome do usuário: ")
         senha = input("Digite a senha: ")
 
         # Checa se ja existe alguem com esse nome cadastrado.
-        with open('armazenamento_cadastros.txt', 'r') as arquivo:
+        with open('./dados/armazenamento_cadastros.txt', 'r') as arquivo:
             usuarios = arquivo.readlines()
 
             if (usuario.strip() == '') or (senha.strip() == ''):
@@ -50,7 +50,7 @@ def registrar():
                     return False
 
         # Cadastra o usuário separando por '|' para ajudar na manipulação.
-        with open('armazenamento_cadastros.txt', 'a') as cd:
+        with open('./dados/armazenamento_cadastros.txt', 'a') as cd:
             cd.write(usuario + '|' + senha + '\n')
         print("Cadastro realizado com sucesso.")
         return True, usuario
@@ -65,7 +65,7 @@ def login():
     senha = input("Digite a senha: ")
 
     try:
-        with open('armazenamento_cadastros.txt', 'r') as cd:
+        with open('./dados/armazenamento_cadastros.txt', 'r') as cd:
             usuarios = cd.readlines()
     except FileNotFoundError:
         print("Você precisa se registrar primeiro.")
@@ -116,7 +116,7 @@ def menu_cadastro_login():
             limpar_tela()
             print("Saindo...")
             time.sleep(2)
-            return 'sair_programa'
+            return '\sair_programa'
         else:
             limpar_tela()
             print("Opção inválida.")
@@ -124,10 +124,10 @@ def menu_cadastro_login():
 
 
 
-usuario_atual = menu_cadastro_login()
-limpar_tela()
+# usuario_atual = menu_cadastro_login()
+# limpar_tela()
 
-permissao = localizacao.verificar_permissao_localizacao(usuario_atual)
+# permissao = localizacao.verificar_permissao_localizacao(usuario_atual)
 
-if not permissao:  # Se o usario atual não tiver permitido o acesso a localização a função irá perguntar se ele deseja.
-    localizacao.pedir_permissao_localizacao(usuario_atual)
+# if not permissao:  # Se o usario atual não tiver permitido o acesso a localização a função irá perguntar se ele deseja.
+#     localizacao.pedir_permissao_localizacao(usuario_atual)

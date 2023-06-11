@@ -1,8 +1,10 @@
 import os
-from colorama import init, Fore, Style
 
-init()
-os.system("cls")
+def limpar_tela():
+    # Se for em um dispositivo Ios, usa o clear, caso não, usa cls.
+    os.system('cls' if os.name == 'nt' else 'clear')
+
+limpar_tela()
 
 def informacoes():
     w = " "
@@ -20,13 +22,11 @@ def informacoes():
         
         try:
             if int(entrada) == 1:
-                os.system("cls")
+                limpar_tela()
                 print("Após clicar em 'Rota definida', você terá\nacesso às opções de rotas. É só escolher a que desejar e\niniciar o seu passeio.")
         except ValueError:
             continue
         
         if int(entrada) == 2:
-            os.system("cls")
+            limpar_tela()
             w = 'x'
-
-informacoes()
