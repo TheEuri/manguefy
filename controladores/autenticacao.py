@@ -52,12 +52,13 @@ def registrar():
         # Cadastra o usuário separando por '|' para ajudar na manipulação.
         with open('./dados/armazenamento_cadastros.txt', 'a') as cd:
             cd.write(usuario + '|' + senha + '\n')
-        print("Cadastro realizado com sucesso.")
-        return True, usuario
+        print("\nCadastro realizado com sucesso.")
         time.sleep(2)
+        return True, usuario
     except IOError:
         print("Erro ao tentar registrar o usuário.")
         time.sleep(2)
+        return False
 
 def login():
     cabecalho("Login")
@@ -100,7 +101,11 @@ def menu_cadastro_login():
         opcao = input("Escolha uma opção: ")
 
         if opcao == '1':
-            registrar()
+            logado, usuario_atual = registrar()
+            if logado:
+                return usuario_atual
+            else:
+                continue
         elif opcao == '2':
             return "VISITANTE"
         elif opcao == '3':

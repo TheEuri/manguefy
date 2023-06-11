@@ -1,6 +1,7 @@
 from controladores import autenticacao
 from controladores import localizacao
 from controladores import sobre
+from controladores.menu_principal import menu_principal
 from time import sleep
 
 while True:
@@ -21,5 +22,5 @@ while True:
             else:
                 loop_localizacao = not localizacao.pedir_permissao_localizacao(usuario_atual)
                 
-        
+        menu_principal(usuario_atual)
         break
