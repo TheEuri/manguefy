@@ -101,11 +101,9 @@ def menu():
             login()
         elif opcao == '3':
             print("Saindo...")
-            time.sleep(2)
             break
         else:
             print("Opção inválida.")
-            time.sleep(2)
 import os
 from colorama import init, Fore, Style
 
@@ -137,14 +135,35 @@ def informacoes():
             os.system("cls")
             w = 'x'
 
+
+def finalizado():
+    print("Vcoê finalizou seu passeio")
+    print("Status")
+    print("Distancia\nDuração\nMidias ativadas")
+    time.sleep(6)
+    limparTela()
+    print("Você finalizou seu passeio!")
+    print("Midias ativadas")
+    ask=input("Deseja sair")
+
+    
+
 def passeio():
     while True:
+        limparTela()
         print("X min\nX km - Tempo até o proximo ponto: ")
-        ask=("1 - Conta\n2- Sair")
+        ask=("1 - Conta\n2- Sair\n3 - Menu da musica")
         if ask == "1":
             conta()
         if ask == "2":
             break
+        if ask== "3":
+            print("Nome da musica\nAutores \nDuração\nPausar")
+            time.sleep(20)
+            finalizado()
+            break
+
+    menu()
             
 
 def configpasseio():
@@ -223,5 +242,4 @@ def telacommapa():
 
 inicio()
 menu()
-
 
