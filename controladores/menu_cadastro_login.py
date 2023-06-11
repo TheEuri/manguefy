@@ -1,9 +1,10 @@
 import os
-import time  #Utilizado para dar um tempo ao mostrar informações antes de voltar ao menu_cadastro_login.
+# Utilizado para dar um tempo ao mostrar informações antes de voltar ao menu_cadastro_login.
+import time
 
 def limpar_tela():
-    os.system('cls' if os.name == 'nt' else 'clear')   #Se for em um dispositivo Ios, usa o clear, caso não, usa cls.
-
+    # Se for em um dispositivo Ios, usa o clear, caso não, usa cls.
+    os.system('cls' if os.name == 'nt' else 'clear')
 
 def cabecalho(escolha):
     limpar_tela()
@@ -12,25 +13,46 @@ def cabecalho(escolha):
 
 def registrar():
     try:
-        #Tenta abrir o arquivo, se não existir, cria um novo.
+        # Tenta abrir o arquivo, se não existir, cria um novo.
         open('armazenamento_cadastros.txt', 'a').close()
-        
+
         cabecalho("Registrar")
         usuario = input("Digite o nome do usuário: ")
         senha = input("Digite a senha: ")
 
-        with open('armazenamento_cadastros.txt', 'r') as arquivo: #Checa se ja existe alguem com esse nome cadastrado.
+        # Checa se ja existe alguem com esse nome cadastrado.
+        with open('armazenamento_cadastros.txt', 'r') as arquivo:
             usuarios = arquivo.readlines()
+
+            if (usuario.strip() == '') or (senha.strip() == ''):
+                print("Você precisa digitar um nome de usuário e uma senha.")
+                time.sleep(2)
+                return False
+            carcacteres_proibidos = ["|", " ", "\\"]
+
+            # Checa se o nome de usuário ou a senha contém caracteres especiais que podem causar problemas ao serem usados.
+            if any(caracter in usuario for caracter in carcacteres_proibidos) or any(caracter in senha for caracter in carcacteres_proibidos):
+                print("A sua senha ou nome de usuário não pode conter espaços, barras ou o caractere '|'.")
+                time.sleep(2)
+                return False
+            
+            if usuario == "VISITANTE":
+                print("Este nome de usuário não está disponível.")
+                time.sleep(2)
+                return False
+            
             for usuarioCadastrado in usuarios:
-                arquivo_usuario, arquivo_senha = usuarioCadastrado.strip().split('|')
+                arquivo_usuario = usuarioCadastrado.strip().split('|')[0]
                 if usuario == arquivo_usuario:
                     print("Esse nome de usúario já foi utilizado.")
                     time.sleep(2)
-                    return
-                
-        with open('armazenamento_cadastros.txt', 'a') as cd: #Cadastra o usuário separando por '|' para ajudar na manipulação. 
+                    return False
+
+        # Cadastra o usuário separando por '|' para ajudar na manipulação.
+        with open('armazenamento_cadastros.txt', 'a') as cd:
             cd.write(usuario + '|' + senha + '\n')
-        print("Usuário cadastrado.")
+        print("Cadastro realizado com sucesso.")
+        return True, usuario
         time.sleep(2)
     except IOError:
         print("Erro ao tentar registrar o usuário.")
@@ -50,7 +72,9 @@ def login():
         return False
 
     for usuarioCadastro in usuarios:
-        cd_usuario, cd_senha = usuarioCadastro.strip().split('|') #Checa se o usuário e a senha inseridos são correspondentes ao do cadastrado.
+        # Checa se o usuário e a senha inseridos são correspondentes ao do cadastrado.
+        cd_usuario, cd_senha = usuarioCadastro.replace(
+            "\n", "").strip().split('|')
 
         if cd_usuario == usuario and cd_senha == senha:
             cabecalho("Login")
@@ -84,53 +108,57 @@ def menu_cadastro_login():
         elif opcao == '3':
             logado, usuario_atual = login()
             if logado:
-                return usuario_atual #Retorna o nome do usuário logado para usar no futuro
+                return usuario_atual  # Retorna o nome do usuário logado para usar no futuro
             else:
-                pass #Se o usuário não for logado, volta para o menu_cadastro_login
+                pass  # Se o usuário não for logado, volta para o menu_cadastro_login
         elif opcao == '4':
             limpar_tela()
             print("Saindo...")
             time.sleep(2)
-            break
+            return 'sair_programa'
         else:
             limpar_tela()
             print("Opção inválida.")
             time.sleep(2)
 
-def verificar_permisao_localizacao(usuario):
-    open(f'{usuario}_localizacao.txt', 'a').close() #Tenta abrir o arquivo, se não existir, cria um novo.
+def verificar_permissao_localizacao(usuario):
+    # Tenta abrir o arquivo, se não existir, cria um novo.
+    open('localizacao.txt', 'a').close()
+    if usuario == 'VISTANTE':
+        return
+    arquivo = open('localizacao.txt', 'r')
+    localizacao = arquivo.readlines()
+    arquivo.close()
+    for aceites in localizacao:
+        escolhaUsuario = aceites.strip().split('|')
+        if escolhaUsuario[0] == usuario:
+            if escolhaUsuario[1] == '1':
+                return True
 
-    with open(f"{usuario}_localizacao.txt", 'r') as arquivo:
-        localizacao = arquivo.read()
-        arquivo.close()
-        if localizacao == '1': #Checa se o usuário atual permitiu a localização.
-            return True
-        else:
-            return False
-  
+
 def pedir_permissao_localizacao(usuario):
-    with open(f"{usuario}_localizacao.txt", 'w') as arquivo:
-        escolha = input("Deseja permitir o acesso a sua localização? (S/N): ").lower()
-        if escolha.lower() == 's':
-            arquivo.write('1')
-        else:
-            limpar_tela()
-            print("Texto explicando que o acesso a localização é necessário para o funcionamento do programa.")
-            escolha = input("Você tem certeza que deseja continuar sem permitir o acesso? (S/N)").lower()
-            if escolha == 's':
-                arquivo.write('0')
-            else:
-                pedir_permissao_localizacao(usuario)
+    arquivo = open('localizacao.txt', 'a')
+    escolha = input('Deseja permitir o acesso a sua localização? (S/N): ')
+    aceito = False
+    if escolha.lower() == 's':
+        print('Permissão concedida.')
+        time.sleep(2)
+        limpar_tela()
+        if not usuario == 'VISITANTE':
+            arquivo.write(usuario + '|' + '1' + '\n')
+        aceito = True
+    else:
+        print('Texto explicando que o acesso a localização é necessário para o funcionamento do programa.')
+        if not usuario == 'VISITANTE':
+            arquivo.write(usuario + '|' + '0' + '\n')
+    arquivo.close()
+
+    return aceito
 
 usuario_atual = menu_cadastro_login()
 limpar_tela()
 
-permissao = verificar_permisao_localizacao(usuario_atual)
+permissao = verificar_permissao_localizacao(usuario_atual)
 
-if not permissao:  #Se o usario atual não tiver permitido o acesso a localização a função irá perguntar se ele deseja.
+if not permissao:  # Se o usario atual não tiver permitido o acesso a localização a função irá perguntar se ele deseja.
     pedir_permissao_localizacao(usuario_atual)
-
-
-
-
-  
