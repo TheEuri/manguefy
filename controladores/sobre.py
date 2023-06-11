@@ -10,6 +10,7 @@ def limpar_tela():
 def boasvindas():
     # Mostra o logo do programa
     with open('./misc/manguefy-logo.txt', 'r') as logo:
+        limpar_tela()
         print(logo.read())
         print("Seja bem vindo(a) ao Manguefy!")
         print("\nIniciando....")

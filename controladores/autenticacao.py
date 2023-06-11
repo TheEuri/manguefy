@@ -92,13 +92,10 @@ def login():
 def menu_cadastro_login():
     while True:
         cabecalho("Menu Principal ")
-        print("1. Cadastrar-se")
-        print("2. Continuar sem cadastro")
-        print()
-        print("3. Entrar")
-        print()
-        print("4. Sair")
-        print()
+        print("1. Cadastrar-se\n")
+        print("2. Continuar sem cadastro\n")
+        print("3. Entrar\n")
+        print("4. Sair\n")
         print("-" * 35)
         opcao = input("Escolha uma opção: ")
 
@@ -121,13 +118,3 @@ def menu_cadastro_login():
             limpar_tela()
             print("Opção inválida.")
             time.sleep(2)
-
-
-
-# usuario_atual = menu_cadastro_login()
-# limpar_tela()
-
-# permissao = localizacao.verificar_permissao_localizacao(usuario_atual)
-
-# if not permissao:  # Se o usario atual não tiver permitido o acesso a localização a função irá perguntar se ele deseja.
-#     localizacao.pedir_permissao_localizacao(usuario_atual)

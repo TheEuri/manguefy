@@ -27,7 +27,7 @@ def pedir_permissao_localizacao(usuario):
     print('O aplicativo funciona através de geolocalização, ativando sons específicos ao passar por pontos \nturísticos da cidade de Recife. Por isso, para o funcionamento do Manguefy, é necessário a permissão \ndo acesso a sua localização.')
     print('-' * 103)
 
-    escolha = input('\nDeseja permitir o acesso a sua localização? (S/N): ')
+    escolha = input('\nDeseja permitir o acesso a sua localização? (S/N ou SAIR para sair do programa): ')
     aceito = False
     if escolha.lower() == 's':
         print('Permissão concedida.')
@@ -36,6 +36,8 @@ def pedir_permissao_localizacao(usuario):
         if not usuario == 'VISITANTE':
             arquivo.write(usuario + '|' + '1' + '\n')
         aceito = True
+    elif escolha.lower() == 'sair':
+        exit()
     else:
         print('O aplicativo precisa utilizar a sua localização para funcionar adequadamente.')
         time.sleep(2)
