@@ -1,23 +1,35 @@
 from time import sleep
 import os
-from dotenv import load_dotenv
-import googlemaps
-import folium
-import polyline
-from datetime import datetime
+import controladores.geolocalizacao as geolocalizacao
 
-load_dotenv()
-print(os.environ.get('GOOGLE_API_KEY'))
+pontos = {
+    '1': {
+        'nome': 'Monumento ao Manguebeat (Caranguejo da Aurora)',
+        'coordenadas': [-8.060745434332873, -34.88080592604645]
+    },
+    '2': {
+        'nome': 'Monumento Caranguejo MangueBeat 2',
+        'coordenadas': [-8.064887271787423, -34.874233713306865]
+    },
+    '3': {
+        'nome': 'Memorial Chico Science',
+        'coordenadas': [-8.067088267676366, -34.87885749553351]
+    },
+    '4': {
+        'nome': 'Rua da moeda',
+        'coordenadas': [-8.064373114500473, -34.872768902089234]
+    },
+    '5': {
+        'nome': 'Memorial arcoverde',
+        'coordenadas': [-8.030247061150101, -34.86586451743399]
+    },
 
-gmaps = googlemaps.Client(key=os.environ.get('GOOGLE_API_KEY'))
-
-
-
+}
 
 rotas = {
     '1': {
       'nome': 'Manguebeat',
-      'pontos': [],
+      'pontos': [pontos['1'], pontos['2'], pontos['3'], pontos['4'], pontos['5']],
       'quilometragem': 10
     },
     '2': {
@@ -173,46 +185,6 @@ def selecionar_rota():
       sleep(2)
       continue
 
-def pedir_endereco():
-  while True:
-    limpar_tela()
-    print('-'*15, 'Digite o endereço', '-'*15)
-    print('\nExemplo: Rua dos Bobos, 0 - São Paulo')
-    endereco = input("\nDigite o endereço: ")
-
-    limpar_tela()
-    print(f'Você digitou o endereço {endereco}\n')
-    confirma = input('Digite S para confirmar ou N para cancelar: ').lower()
-    if confirma == 's':
-      print(f'\nVocê confirmou o endereço {endereco}\n')
-      print('Carregando...')
-      geocode = gmaps.geocode(endereco)
-      if len(geocode) == 0:
-        print('\nEndereço não encontrado, tente novamente.\n')
-        sleep(2)
-        continue
-      else:
-        limpar_tela()
-        print('-'*15, 'Endereço encontrado','-'*15,)
-        print(geocode[0]['formatted_address'])
-        print('-'*51)
-        
-        print('\nEsta é a localização correta?')
-        confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
-        if confirma == 's':
-          print('\nEndereço confirmado.\n')
-          sleep(2)
-          return [geocode[0]['geometry']['location']['lat'], geocode[0]['geometry']['location']['lng']]
-        else:
-          print('\nVoltando para o menu...\n')
-          sleep(2)
-          continue
-    else:
-      print('\nVoltando para o menu...\n')
-      sleep(2)
-      continue
-      
-
 def iniciar_passeio(usuario):
     while True:
       modo_locomocao_escolhido = modo_locomocao()
@@ -232,5 +204,12 @@ def iniciar_passeio(usuario):
         input('\nPressione ENTER para iniciar o passeio...')
         limpar_tela()
 
-        coordenadas_saida = pedir_endereco()
+        coordenadas_saida = geolocalizacao.pedir_endereco()
+
+        sleep(2)
+        rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota['pontos'])
+
+        geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota['pontos'])
+
+        sleep(120)
         break
