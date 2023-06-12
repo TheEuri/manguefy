@@ -71,8 +71,6 @@ def criar_rota(saida, modo_locomocao, pontos):
   elif modo_locomocao == '3':
     modo_locomocao_maps = 'bicycling'
 
-  print(modo_locomocao_maps)
-
   rota = gmaps.directions(saida, ponto_final, mode=modo_locomocao_maps, waypoints=vetor_pontos)
 
   return rota
@@ -86,6 +84,7 @@ def criar_mapa(rota, saida, pontos):
     folium.Marker((ponto['coordenadas'][0], ponto['coordenadas'][1]), popup=f"{index+1}. {ponto['nome']}", icon=folium.Icon(color='red', icon='asterisk')).add_to(mapa)
   folium.PolyLine(polyline_decodificado, weight=5, opacity=1).add_to(mapa)
   mapa.save('mapa.html')
+  
   print('Mapa criado com sucesso!')
 
   return
