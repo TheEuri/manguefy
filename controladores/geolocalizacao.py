@@ -4,6 +4,7 @@ import folium
 import polyline
 import os
 from time import sleep
+import webbrowser
 
 load_dotenv()
 gmaps = googlemaps.Client(key=os.environ.get('GOOGLE_API_KEY'))
@@ -84,8 +85,20 @@ def criar_mapa(rota, saida, pontos):
     folium.Marker((ponto['coordenadas'][0], ponto['coordenadas'][1]), popup=f"{index+1}. {ponto['nome']}", icon=folium.Icon(color='red', icon='asterisk')).add_to(mapa)
   folium.PolyLine(polyline_decodificado, weight=5, opacity=1).add_to(mapa)
   mapa.save('mapa.html')
-  
-  print('Mapa criado com sucesso!')
+
+  limpar_tela()
+  print('-'*15, 'Iniciar passeio', '-'*15)
+  print('Deseja iniciar o passeio?')
+  confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
+  if confirma == 's':
+    print('\nIniciando passeio...\n')
+    sleep(2)
+    webbrowser.open('mapa.html')
+    return True
+  else:
+    print('\nVoltando para o menu...\n')
+    sleep(2)
+    return False
 
   return
 

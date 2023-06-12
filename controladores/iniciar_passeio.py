@@ -76,7 +76,7 @@ def modo_locomocao():
 
       limpar_tela()
       if opcao == '1':
-        print('\nVocê escolheu a opção 1 - A pé\n')
+        print('\nVocê escolheu a opção 1 - A pé')
         confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
         if confirma == 's':
           print('\nModo de locomoção definido como a pé\n')
