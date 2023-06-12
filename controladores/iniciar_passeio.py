@@ -208,8 +208,15 @@ def iniciar_passeio(usuario):
 
         sleep(2)
         rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota['pontos'])
-
         geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota['pontos'])
 
-        sleep(120)
+        quilometragem = rota_criada[0]['legs'][0]['distance']['text']
+        tempo = rota_criada[0]['legs'][0]['duration']['text']
+
+        sleep(2)
+        limpar_tela()
+        print(f'Quilometragem: {quilometragem}')
+        print(f'Tempo estimado: {tempo}')
+
+        input('\nPressione ENTER para finalizar...')
         break
