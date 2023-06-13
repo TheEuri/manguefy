@@ -211,8 +211,11 @@ def rota_personalizada(pontos):
     limpar_tela()
 
     print('-'*15, 'Ponto(s) selecionado(s)', '-'*15)
-    for index, ponto in enumerate(pontos_selecionados):
-      print(f'{index+1} - {ponto[0]}')
+    if len(pontos_selecionados) == 0:
+      print('Nenhum ponto selecionado')
+    else:
+      for index, ponto in enumerate(pontos_selecionados):
+        print(f'{index+1} - {ponto[0]}')
     print('-'*60)
     print('-'*15, 'Opções', '-'*15)
     print('\n1 - Adicionar ponto')
@@ -245,29 +248,30 @@ def rota_personalizada(pontos):
         sleep(2)
         continue
     elif opcao == '2':
-      print('-'*15, 'Pontos selecionados', '-'*15)
-      for index, ponto in enumerate(pontos_selecionados):
-        print(f'{index+1} - {ponto[0]}')
-      print('-'*60)
-      ponto_escolhido = input("Caso não tenha escolhido nenhum ponto ainda digite qualquer valor\nEscolha um ponto: ")
+      if len(pontos_selecionados) == 0:
+        print('\nNenhum ponto selecionado\n')
+        sleep(2)
+        continue
+      else: 
+        print('-'*15, 'Pontos selecionados', '-'*15)
+        for index, ponto in enumerate(pontos_selecionados):
+          print(f'{index+1} - {ponto[0]}')
+        print('-'*60)
+        ponto_escolhido = input("\nEscolha um ponto: ")
 
-      limpar_tela()
-      ponto_valido = False
-      for index, ponto in enumerate(pontos_selecionados):
-        if ponto_escolhido == str(index+1):
-          ponto_valido = True
-          pontos_nao_selecionados.append(ponto)
-          pontos_selecionados.pop(index)
-          print(f'\nVocê removeu o ponto {ponto[0]}.\n')
-          sleep(2)
-          break
-      if ponto_valido == False:
-        if len(pontos_selecionados)>0:
-          print("Opção invalida, tente novamente.")
-          sleep(2)
-        else:
-          print("Voltando ao menu.")
-          sleep(2)
+        limpar_tela()
+        ponto_valido = False
+        for index, ponto in enumerate(pontos_selecionados):
+          if ponto_escolhido == str(index+1):
+            ponto_valido = True
+            pontos_nao_selecionados.append(ponto)
+            pontos_selecionados.pop(index)
+            print(f'\nVocê removeu o ponto {ponto[0]}.\n')
+            sleep(2)
+            break
+        if ponto_valido == False:
+            print("Opção invalida, tente novamente.")
+            sleep(2)
     elif opcao == '3':
       if len(pontos_selecionados) < 1:
         print('\nVocê precisa selecionar pelo menos 1 ponto para criar uma rota personalizada.\n')

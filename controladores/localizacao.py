@@ -19,38 +19,30 @@ def verificar_permissao_localizacao(usuario):
             if escolhaUsuario[1] == '1':
                 return True
 
-#
+
 def pedir_permissao_localizacao(usuario):
-    arquivo = open('./dados/localizacao.txt', 'a')
-#Apenas sinaliza em prints a funcionalidade do nosso aplicativo.
-    print('-' * 35, 'Entenda melhor a nossa proposta', '-' * 35)
-    print('O aplicativo funciona através de geolocalização, ativando sons específicos ao passar por pontos \nturísticos da cidade de Recife. Por isso, para o funcionamento do Manguefy, é necessário a permissão \ndo acesso a sua localização.')
-    print('-' * 103)
-#uma simples escolha de S ou N para dar sequencia ao programa, caso prossiga pode entrar como visitante ou com usuario cadastrado.
-    while True:
-        escolha = input('\nDeseja permitir o acesso a sua localização? (S/N ou SAIR para sair do programa): ')
-        aceito = False
-        if escolha.lower() == 's':
-            print('Permissão concedida.')
-            time.sleep(2)
-            limpar_tela()
-            if not usuario == 'VISITANTE':
-                arquivo.write(usuario + '|' + '1' + '\n')
-            aceito = True
-            arquivo.close() 
-            return aceito
-        elif escolha.lower() == 'sair':
-            arquivo.close()
-            exit()
-        elif escolha.lower()=="n":
-            print('O aplicativo precisa utilizar a sua localização para funcionar adequadamente.')
-            time.sleep(2)            
-        else:
-            limpar_tela()
-            print("Digite um valor válido.")            
-        arquivo.close()
-
+  arquivo = open('./dados/localizacao.txt', 'a')
+  #Apenas sinaliza em prints a funcionalidade do nosso aplicativo.
+  print('-' * 35, 'Entenda melhor a nossa proposta', '-' * 35)
+  print('O aplicativo funciona através de geolocalização, ativando sons específicos ao passar por pontos \nturísticos da cidade de Recife. Por isso, para o funcionamento do Manguefy, é necessário a permissão \ndo acesso a sua localização.')
+  print('-' * 103)
+  #uma simples escolha de S ou N para dar sequencia ao programa, caso prossiga pode entrar como visitante ou com usuario cadastrado.
+  while True:
+    escolha = input('\nDeseja permitir o acesso a sua localização? (S/N ou SAIR para sair do programa): ')
+    aceito = False
+    if escolha.lower() == 's':
+        print('Permissão concedida.')
         time.sleep(2)
-    arquivo.close()
-
-    return aceito
+        limpar_tela()
+        if not usuario == 'VISITANTE':
+            arquivo.write(usuario + '|' + '1' + '\n')
+        aceito = True
+        arquivo.close() 
+        return aceito
+    elif escolha.lower() == 'sair':
+        arquivo.close()
+        exit()
+    else:
+        print('O aplicativo precisa utilizar a sua localização para funcionar adequadamente.')
+        time.sleep(2)  
+        continue
