@@ -1,4 +1,4 @@
-iimport os
+import os
 from time import sleep
 from controladores.sobre import informacoes
 from controladores.iniciar_passeio import iniciar_passeio
