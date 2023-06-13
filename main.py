@@ -1,4 +1,6 @@
 try:
+    import os
+    os.system("cls")
     from controladores import autenticacao
     from controladores import localizacao
     from controladores import sobre
