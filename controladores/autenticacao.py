@@ -3,7 +3,7 @@ try:
     # Utilizado para dar um tempo ao mostrar informações antes de voltar ao menu_cadastro_login.
     import time
     from controladores import localizacao
-
+    ok =""
     def limpar_tela():
         # Se for em um dispositivo linux, usa o clear, caso não, usa cls.
         os.system('cls' if os.name == 'nt' else 'clear')
@@ -14,51 +14,64 @@ try:
         print()
 
     def registrar():
-        try:
-            # Tenta abrir o arquivo, se não existir, cria um novo.
-            open('./dados/armazenamento_cadastros.txt', 'a').close()
-            cabecalho("Registrar")
-            usuario = input("Digite o nome do usuário: ")
-            senha = input("Digite a senha: ")
+            ok=""
+            try:
+                # Tenta abrir o arquivo, se não existir, cria um novo.
+                open('./dados/armazenamento_cadastros.txt', 'a').close()
+                cabecalho("Registrar")
+                while ok!="ok":
+                    usuario = input("Digite o nome do usuário: ")
+                    senha = input("Digite a senha: ")
 
-            # Checa se ja existe alguem com esse nome cadastrado.
-            with open('./dados/armazenamento_cadastros.txt', 'r') as arquivo:
-                usuarios = arquivo.readlines()
+                    # Checa se ja existe alguem com esse nome cadastrado.
+                    with open('./dados/armazenamento_cadastros.txt', 'r') as arquivo:
+                        usuarios = arquivo.readlines()
 
-                if (usuario.strip() == '') or (senha.strip() == ''):
-                    print("Você precisa digitar um nome de usuário e uma senha.")
+                        if (usuario.strip() == '') or (senha.strip() == ''):
+                            limpar_tela()
+                            print("Você precisa digitar um nome de usuário e uma senha.")
+                            time.sleep(2)
+                            continue
+                        carcacteres_proibidos = ["|", " ", "\\"]
+
+                        # Checa se o nome de usuário ou a senha contém caracteres especiais que podem causar problemas ao serem usados.
+                        if any(caracter in usuario for caracter in carcacteres_proibidos) or any(caracter in senha for caracter in carcacteres_proibidos):
+                            limpar_tela()
+                            print("A sua senha ou nome de usuário não pode conter espaços, barras ou o caractere '|'.")
+                            time.sleep(2)
+                            continue
+                        
+                        if usuario == "VISITANTE":
+                            limpar_tela()
+                            print("Este nome de usuário não está disponível.")
+                            time.sleep(2)
+                            continue
+                        
+                        nome_cadastrado = False
+                        for usuarioCadastrado in usuarios:
+                            arquivo_usuario = usuarioCadastrado.strip().split('|')[0]
+                            if usuario == arquivo_usuario:
+                                nome_cadastrado = True
+                                break
+
+                        if nome_cadastrado:
+                            limpar_tela()
+                            print("Esse nome de usuário já foi utilizado.")
+                            time.sleep(2)
+                            continue
+                        else:
+                            ok="ok"
+
+                    # Cadastra o usuário separando por '|' para ajudar na manipulação.
+                    with open('./dados/armazenamento_cadastros.txt', 'a') as cd:
+                        cd.write(usuario + '|' + senha + '\n')
+                    print("\nCadastro realizado com sucesso.")
                     time.sleep(2)
-                    return False
-                carcacteres_proibidos = ["|", " ", "\\"]
-
-                # Checa se o nome de usuário ou a senha contém caracteres especiais que podem causar problemas ao serem usados.
-                if any(caracter in usuario for caracter in carcacteres_proibidos) or any(caracter in senha for caracter in carcacteres_proibidos):
-                    print("A sua senha ou nome de usuário não pode conter espaços, barras ou o caractere '|'.")
-                    time.sleep(2)
-                    return False
-                
-                if usuario == "VISITANTE":
-                    print("Este nome de usuário não está disponível.")
-                    time.sleep(2)
-                    return False
-                
-                for usuarioCadastrado in usuarios:
-                    arquivo_usuario = usuarioCadastrado.strip().split('|')[0]
-                    if usuario == arquivo_usuario:
-                        print("Esse nome de usúario já foi utilizado.")
-                        time.sleep(2)
-                        return False
-
-            # Cadastra o usuário separando por '|' para ajudar na manipulação.
-            with open('./dados/armazenamento_cadastros.txt', 'a') as cd:
-                cd.write(usuario + '|' + senha + '\n')
-            print("\nCadastro realizado com sucesso.")
-            time.sleep(2)
-            return True, usuario
-        except IOError or FileNotFoundError:
-            print("Erro para abrir arquivo.")
-            time.sleep(2)
-            return False
+                    return True, usuario
+            except IOError or FileNotFoundError:
+                print("Erro para abrir arquivo.")
+                time.sleep(2)
+                return False
 
     def login():
         cabecalho("Login")
@@ -127,4 +140,4 @@ try:
                 print("Opção inválida.")
                 time.sleep(2)
 except ModuleNotFoundError:
-    print("A instalação não foi concluida corretamente.")
+    print("Inicie no arquivo main.py")
