@@ -1,10 +1,8 @@
-# Título do Projeto
-Manguefy
-# Descrição do Projeto
+# Manguefy 🦀
 
 Este é um projeto criado com o intuito de oferecer para o grande público mais conhecimento e a disseminação do movimento Manguebeat que surgiu na cidade do Recife, em 1992. O projeto foi desenvolvido em Python e utiliza a biblioteca Google Maps para criar rotas e visualizar no mapa com o uso do pacote folium. Neste código o usuário faz o cadastro, ou não, com acesso às telas para permitir a geolocalização dele e assim começar a escolher a rota para o passeio. Ainda escolhe que tipo de meio de transporte ele quer, e se vai escolher alguma rota pré-definida ou escolher uma rota personalizada.
 
-# Requisitos
+# Requisitos ✅
 
 - Python 3.11.4
 - Chave API válida do Google Maps
@@ -17,7 +15,7 @@ Este é um projeto criado com o intuito de oferecer para o grande público mais 
 - time
 - os
 
-# Instalação
+# Instalação 🖥️
 
 ## Python
 
@@ -64,7 +62,7 @@ Se você encontrar algum problema durante a instalação, verifique se o Python 
 Forma correta do arquivo ".env":
 ![imagem_env](https://i.ibb.co/9ZV5WwB/code.png)
 
-# Utilização
+# Utilização 👩‍💻👨‍💻
 
 Para iniciar a aplicação você deve digitar a seguinte linha em seu console na pasta principal da aplicação:
 ```sh
@@ -91,4 +89,4 @@ Escolha uma opção:
 
 Quando você escolher uma opção o aplicativo mostrará outro menu subsequente sobre o que você escolheu e você deve seguir as instruções do próprio aplicativo para prosseguir com a utilização.
 
-Nossa aplicação é bem descritiva em suas telas, portanto é só ler com atenção que você conseguirá utilizar ela sem nenhum problema!
+Nossa aplicação é bem descritiva em suas telas, portanto é só ler com atenção que você conseguirá utilizar ela sem nenhum problema! 😋😜
