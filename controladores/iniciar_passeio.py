@@ -1,6 +1,6 @@
 from time import sleep
 import os
-import controladores.geolocalizacao as geolocalizacao
+from controladores import geolocalizacao
 
 pontos = {
     '1': {
@@ -310,8 +310,11 @@ def iniciar_passeio(usuario):
 
           sleep(2)
           rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota['pontos'])
-          geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota['pontos'])
+          mapa = geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota['pontos'])
 
+          if mapa == False:
+            return
+          
           quilometragem = rota_criada[0]['legs'][0]['distance']['text']
           tempo = rota_criada[0]['legs'][0]['duration']['text']
 
@@ -328,7 +331,10 @@ def iniciar_passeio(usuario):
           sleep(2)
 
           rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota_escolhida)
-          geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota_escolhida)
+          mapa = geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota_escolhida)
+
+          if (mapa == False):
+            return
 
           quilometragem = rota_criada[0]['legs'][0]['distance']['text']
           tempo = rota_criada[0]['legs'][0]['duration']['text']
