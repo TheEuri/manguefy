@@ -69,6 +69,8 @@ Para iniciar a aplicação você deve digitar a seguinte linha em seu console na
 python main.py
 ```
 
+Ou você pode executar o arquivo "Iniciar.bat".
+
 Ao iniciar irá aparecer a logo do Manguefy e em seguida outra tela explicando sobre o mesmo, onde você deverá apertar a tecla ENTER para prosseguir.
 
 Após clicar ENTER você deverá ver o seguinte menu onde você deverá escolher a opção a qual melhor serve o seu caso no momento:
