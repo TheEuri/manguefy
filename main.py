@@ -28,3 +28,4 @@ try:
             break
 except:
     print("A instalação não foi concluida corretamente.")
+    print("A instalação não foi concluida corretamente.")
