@@ -1,4 +1,4 @@
-import os
+iimport os
 from time import sleep
 from controladores.sobre import informacoes
 from controladores.iniciar_passeio import iniciar_passeio
@@ -9,7 +9,10 @@ def limpar_tela():
 
 def ver_conta(usuario):
     limpar_tela()
-    print(f"Seu usuário: {usuario}")
+    if usuario=="VISITANTE":
+       print("Você ainda não esta cadastrado")
+    else:
+        print(f"Seu usuário: {usuario}")
     print("{E-mail ou telefone}\n")
     print("Configurações")
     print("Historico de rotas")
