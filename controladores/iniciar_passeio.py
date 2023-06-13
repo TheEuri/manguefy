@@ -62,7 +62,7 @@ rotas = {
 def limpar_tela():
     # Se for em um dispositivo linux, usa o clear, caso não, usa cls.
     os.system('cls' if os.name == 'nt' else 'clear')
-
+#Nessa parte funciona para apenas escolher a forma de locomoção do usuario, e tendo a opção de retornar.
 def modo_locomocao():
     while True:
       limpar_tela()
@@ -73,10 +73,10 @@ def modo_locomocao():
       print('\n4 - Voltar\n')
       print('-'*60)
       opcao = input("\nEscolha uma opção: ")
-
+      #Aqui apena sinaliza a opção que foi escolhida pelo usuario.
       limpar_tela()
       if opcao == '1':
-        print('\nVocê escolheu a opção 1 - A pé')
+        print('\nVocê escolheu a opção 1 - A pé\n')
         confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
         if confirma == 's':
           print('\nModo de locomoção definido como a pé\n')
@@ -112,7 +112,9 @@ def modo_locomocao():
         print('\nVoltando para o menu...\n')
         sleep(2)
         return False
-
+#A partir daqui começa a escolha de rotas, onde o usuário escolhe entre fazer a rota definida do app ou a rota personalizada.
+#Caso seja selecionada a rota definida, seguirá para a próxima interface onde já está salva uma sequência de rotas.
+#E caso seja escolhida a personalizada, o usuário poderá escolher os endereços e definir as rotas.
 def escolher_tipo_rota():
   while True:
     limpar_tela()
@@ -122,7 +124,7 @@ def escolher_tipo_rota():
     print('\n3 - Voltar\n')
     print('-'*60)
     opcao = input("\nEscolha uma opção: ")
-
+#Aqui foi escolhida a opção de rota definida onde apenas confirma a escolha
     limpar_tela()
     if opcao == '1':
       print('\nVocê escolheu a opção 1 - Rota definida\n')
@@ -135,6 +137,7 @@ def escolher_tipo_rota():
         print('\nVoltando para o menu...\n')
         sleep(2)
         continue
+#em sequencia caso a escolha tenha sido a 2°.
     elif opcao == '2':
       print('\nVocê escolheu a opção 2 - Rota personalizada\n')
       confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
@@ -146,11 +149,12 @@ def escolher_tipo_rota():
         print('\nVoltando para o menu...\n')
         sleep(2)
         continue
+      #opção de retorno
     elif opcao == '3':
       print('\nVoltando para o menu...\n')
       sleep(2)
       return False
-    
+    #Aqui o usuario tem disponibilidade de escolher uma rota.
 def selecionar_rota():
   while True:
     limpar_tela()
@@ -160,7 +164,8 @@ def selecionar_rota():
     print('\n7 - Voltar\n')
     print('-'*60)
     opcao = input("\nEscolha uma opção: ")
-
+#Aqui demonstra a quilometragem de cada distancia de cada rota acentuada pelo google mapas para facilitar as rotas e colocar o endereço correto
+#caso coloque um errado ele recusa e pede para tentar de novo
     limpar_tela()
     opcao_valida = False
     for rota in rotas:
@@ -184,7 +189,8 @@ def selecionar_rota():
       print('\nOpção inválida, tente novamente.\n')
       sleep(2)
       continue
-
+#Por fim aqui começa o sistema de rotas, indo para a sequencia de coordenadas onde o usuario pode confirmar e iniciar a viagem
+# e ao mesmo tempo confirmar onde quer finalizar a rota.
 def iniciar_passeio(usuario):
     while True:
       modo_locomocao_escolhido = modo_locomocao()
