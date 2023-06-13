@@ -249,7 +249,7 @@ def rota_personalizada(pontos):
       for index, ponto in enumerate(pontos_selecionados):
         print(f'{index+1} - {ponto[0]}')
       print('-'*60)
-      ponto_escolhido = input("\nEscolha um ponto: ")
+      ponto_escolhido = input("Caso não tenha escolhido nenhum ponto ainda digite qualquer valor\nEscolha um ponto: ")
 
       limpar_tela()
       ponto_valido = False
@@ -262,9 +262,12 @@ def rota_personalizada(pontos):
           sleep(2)
           break
       if ponto_valido == False:
-        print('\nOpção inválida, tente novamente.\n')
-        sleep(2)
-        continue
+        if len(pontos_selecionados)>0:
+          print("Opção invalida, tente novamente.")
+          sleep(2)
+        else:
+          print("Voltando ao menu.")
+          sleep(2)
     elif opcao == '3':
       if len(pontos_selecionados) < 1:
         print('\nVocê precisa selecionar pelo menos 1 ponto para criar uma rota personalizada.\n')
@@ -280,51 +283,54 @@ def rota_personalizada(pontos):
 
 
 def iniciar_passeio(usuario):
-    while True:
-      modo_locomocao_escolhido = modo_locomocao()
-      if modo_locomocao_escolhido == False:
-        return
-      tipo_rota_escolhido = escolher_tipo_rota()
-      if tipo_rota_escolhido == False:
-        return
-      if tipo_rota_escolhido == 1:
-        rota_escolhida = selecionar_rota()
-        if rota_escolhida == False:
+    try:
+      while True:
+        modo_locomocao_escolhido = modo_locomocao()
+        if modo_locomocao_escolhido == False:
           return
-        rota = rotas[rota_escolhida]
-        limpar_tela()
-        print(f'\nVocê escolheu a rota {rota_escolhida} - Rota {rota["nome"]} ({rota["quilometragem"]}km)\n')
-
-        input('\nPressione ENTER para iniciar o passeio...')
-        limpar_tela()
-
-        coordenadas_saida = geolocalizacao.pedir_endereco()
-
-        sleep(2)
-        rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota['pontos'])
-        geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota['pontos'])
-
-        quilometragem = rota_criada[0]['legs'][0]['distance']['text']
-        tempo = rota_criada[0]['legs'][0]['duration']['text']
-
-        finalizar_passeio(quilometragem, tempo, usuario, rota['nome'])
-        break
-
-      elif tipo_rota_escolhido == 2:
-        rota_escolhida = rota_personalizada(pontos)
-        if rota_escolhida == False:
+        tipo_rota_escolhido = escolher_tipo_rota()
+        if tipo_rota_escolhido == False:
           return
-        
-        limpar_tela()
-        coordenadas_saida = geolocalizacao.pedir_endereco()
-        sleep(2)
+        if tipo_rota_escolhido == 1:
+          rota_escolhida = selecionar_rota()
+          if rota_escolhida == False:
+            return
+          rota = rotas[rota_escolhida]
+          limpar_tela()
+          print(f'\nVocê escolheu a rota {rota_escolhida} - Rota {rota["nome"]} ({rota["quilometragem"]}km)\n')
 
-        rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota_escolhida)
-        geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota_escolhida)
+          input('\nPressione ENTER para iniciar o passeio...')
+          limpar_tela()
 
-        quilometragem = rota_criada[0]['legs'][0]['distance']['text']
-        tempo = rota_criada[0]['legs'][0]['duration']['text']
+          coordenadas_saida = geolocalizacao.pedir_endereco()
 
-        finalizar_passeio(quilometragem, tempo, usuario, 'personalizada')
-        break
+          sleep(2)
+          rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota['pontos'])
+          geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota['pontos'])
 
+          quilometragem = rota_criada[0]['legs'][0]['distance']['text']
+          tempo = rota_criada[0]['legs'][0]['duration']['text']
+
+          finalizar_passeio(quilometragem, tempo, usuario, rota['nome'])
+          break
+
+        elif tipo_rota_escolhido == 2:
+          rota_escolhida = rota_personalizada(pontos)
+          if rota_escolhida == False:
+            return
+          
+          limpar_tela()
+          coordenadas_saida = geolocalizacao.pedir_endereco()
+          sleep(2)
+
+          rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota_escolhida)
+          geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota_escolhida)
+
+          quilometragem = rota_criada[0]['legs'][0]['distance']['text']
+          tempo = rota_criada[0]['legs'][0]['duration']['text']
+
+          finalizar_passeio(quilometragem, tempo, usuario, 'personalizada')
+          break
+    except NameError:
+      print("Os serviços de localização estão indisponiveis no momento\n Tente novamente abrir o app mais tarde")
+      exit()

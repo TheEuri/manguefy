@@ -1,4 +1,6 @@
 try:
+    import os
+    os.system("cls")
     from controladores import autenticacao
     from controladores import localizacao
     from controladores import sobre
@@ -25,4 +27,5 @@ try:
             menu_principal(usuario_atual)
             break
 except:
+    print("A instalação não foi concluida corretamente.")
     print("A instalação não foi concluida corretamente.")
