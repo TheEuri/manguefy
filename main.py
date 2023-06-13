@@ -1,12 +1,11 @@
 try:
-    import os
-    os.system("cls")
     from controladores import autenticacao
     from controladores import localizacao
     from controladores import sobre
     from controladores.menu_principal import menu_principal
 
     while True:
+        localizacao.limpar_tela()
         sobre.boasvindas()
 
         # Mostra o menu de cadastro e login
