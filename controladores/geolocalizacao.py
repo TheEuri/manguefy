@@ -20,7 +20,11 @@ try:
         limpar_tela()
         print('-'*15, 'Digite o seu endereço', '-'*15)
         print('\nExemplo: Rua dos Bobos, 0 - São Paulo')
-        endereco = input("\nDigite o endereço: ")
+        endereco = input("\nDigite o endereço: ").strip
+        if endereco =="":
+          print("Digite algo")
+          sleep(2)
+          continue
 
         limpar_tela()
         print(f'Você digitou o endereço {endereco}\n')
