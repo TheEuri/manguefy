@@ -62,7 +62,7 @@ rotas = {
 def limpar_tela():
     # Se for em um dispositivo linux, usa o clear, caso não, usa cls.
     os.system('cls' if os.name == 'nt' else 'clear')
-#Nessa parte funciona para apenas escolher a forma de locomoção do usuario, e tendo a opção de retornar.
+
 def modo_locomocao():
     while True:
       limpar_tela()
@@ -73,10 +73,10 @@ def modo_locomocao():
       print('\n4 - Voltar\n')
       print('-'*60)
       opcao = input("\nEscolha uma opção: ")
-      #Aqui apena sinaliza a opção que foi escolhida pelo usuario.
+
       limpar_tela()
       if opcao == '1':
-        print('\nVocê escolheu a opção 1 - A pé\n')
+        print('\nVocê escolheu a opção 1 - A pé')
         confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
         if confirma == 's':
           print('\nModo de locomoção definido como a pé\n')
@@ -112,9 +112,7 @@ def modo_locomocao():
         print('\nVoltando para o menu...\n')
         sleep(2)
         return False
-#A partir daqui começa a escolha de rotas, onde o usuário escolhe entre fazer a rota definida do app ou a rota personalizada.
-#Caso seja selecionada a rota definida, seguirá para a próxima interface onde já está salva uma sequência de rotas.
-#E caso seja escolhida a personalizada, o usuário poderá escolher os endereços e definir as rotas.
+
 def escolher_tipo_rota():
   while True:
     limpar_tela()
@@ -124,7 +122,7 @@ def escolher_tipo_rota():
     print('\n3 - Voltar\n')
     print('-'*60)
     opcao = input("\nEscolha uma opção: ")
-#Aqui foi escolhida a opção de rota definida onde apenas confirma a escolha
+
     limpar_tela()
     if opcao == '1':
       print('\nVocê escolheu a opção 1 - Rota definida\n')
@@ -137,7 +135,6 @@ def escolher_tipo_rota():
         print('\nVoltando para o menu...\n')
         sleep(2)
         continue
-#em sequencia caso a escolha tenha sido a 2°.
     elif opcao == '2':
       print('\nVocê escolheu a opção 2 - Rota personalizada\n')
       confirma = input('\nDigite S para confirmar ou N para cancelar: ').lower()
@@ -149,12 +146,11 @@ def escolher_tipo_rota():
         print('\nVoltando para o menu...\n')
         sleep(2)
         continue
-      #opção de retorno
     elif opcao == '3':
       print('\nVoltando para o menu...\n')
       sleep(2)
       return False
-    #Aqui o usuario tem disponibilidade de escolher uma rota.
+    
 def selecionar_rota():
   while True:
     limpar_tela()
@@ -164,8 +160,7 @@ def selecionar_rota():
     print('\n7 - Voltar\n')
     print('-'*60)
     opcao = input("\nEscolha uma opção: ")
-#Aqui demonstra a quilometragem de cada distancia de cada rota acentuada pelo google mapas para facilitar as rotas e colocar o endereço correto
-#caso coloque um errado ele recusa e pede para tentar de novo
+
     limpar_tela()
     opcao_valida = False
     for rota in rotas:
@@ -189,8 +184,101 @@ def selecionar_rota():
       print('\nOpção inválida, tente novamente.\n')
       sleep(2)
       continue
-#Por fim aqui começa o sistema de rotas, indo para a sequencia de coordenadas onde o usuario pode confirmar e iniciar a viagem
-# e ao mesmo tempo confirmar onde quer finalizar a rota.
+
+def finalizar_passeio(quilometragem, tempo, usuario, nome_rota):
+    limpar_tela()
+    print(f'Quilometragem: {quilometragem}')
+    print(f'Tempo estimado: {tempo}')
+
+    input('\nPressione ENTER para finalizar o seu passeio.')
+    limpar_tela()
+
+    with open('./misc/parabens-final-rota.txt', 'r') as parabenizacao:
+      print(parabenizacao.read())
+    print(f'\n{usuario}, você finalizou com sucesso a rota {nome_rota} (com {quilometragem}).\n')
+
+    input('\nPressione ENTER para voltar ao menu principal.')
+    limpar_tela()
+
+def rota_personalizada(pontos):
+  pontos_nao_selecionados = []
+  pontos_selecionados = []
+
+  for index, ponto in enumerate(pontos):
+    pontos_nao_selecionados.append([pontos[ponto]['nome'], pontos[ponto]['coordenadas']])
+  
+  while True:
+    limpar_tela()
+
+    print('-'*15, 'Ponto(s) selecionado(s)', '-'*15)
+    for index, ponto in enumerate(pontos_selecionados):
+      print(f'{index+1} - {ponto[0]}')
+    print('-'*60)
+    print('-'*15, 'Opções', '-'*15)
+    print('\n1 - Adicionar ponto')
+    print('\n2 - Remover ponto')
+    print('\n3 - Finalizar rota')
+    print('\n4 - Voltar\n')
+    print('-'*60)
+    opcao = input("\nEscolha uma opção: ")
+
+    limpar_tela()
+    if opcao == '1':
+      print('-'*15, 'Pontos disponíveis', '-'*15)
+      for index, ponto in enumerate(pontos_nao_selecionados):
+        print(f'{index+1} - {ponto[0]}')
+      print('-'*60)
+      ponto_escolhido = input("\nEscolha um ponto: ")
+
+      limpar_tela()
+      ponto_valido = False
+      for index, ponto in enumerate(pontos_nao_selecionados):
+        if ponto_escolhido == str(index+1):
+          ponto_valido = True
+          pontos_selecionados.append(ponto)
+          pontos_nao_selecionados.pop(index)
+          print(f'\nVocê adicionou o ponto {ponto[0]}.\n')
+          sleep(2)
+          break
+      if ponto_valido == False:
+        print('\nOpção inválida, tente novamente.\n')
+        sleep(2)
+        continue
+    elif opcao == '2':
+      print('-'*15, 'Pontos selecionados', '-'*15)
+      for index, ponto in enumerate(pontos_selecionados):
+        print(f'{index+1} - {ponto[0]}')
+      print('-'*60)
+      ponto_escolhido = input("\nEscolha um ponto: ")
+
+      limpar_tela()
+      ponto_valido = False
+      for index, ponto in enumerate(pontos_selecionados):
+        if ponto_escolhido == str(index+1):
+          ponto_valido = True
+          pontos_nao_selecionados.append(ponto)
+          pontos_selecionados.pop(index)
+          print(f'\nVocê removeu o ponto {ponto[0]}.\n')
+          sleep(2)
+          break
+      if ponto_valido == False:
+        print('\nOpção inválida, tente novamente.\n')
+        sleep(2)
+        continue
+    elif opcao == '3':
+      if len(pontos_selecionados) < 1:
+        print('\nVocê precisa selecionar pelo menos 1 ponto para criar uma rota personalizada.\n')
+        sleep(2)
+        continue
+      else:
+        pontos_selecionados_para_retornar = []
+        for index, ponto in enumerate(pontos_selecionados):
+          pontos_selecionados_para_retornar.append({'nome': ponto[0], 'coordenadas': ponto[1]})
+        return pontos_selecionados_para_retornar
+    elif opcao == '4':
+      return False
+
+
 def iniciar_passeio(usuario):
     while True:
       modo_locomocao_escolhido = modo_locomocao()
@@ -219,10 +307,24 @@ def iniciar_passeio(usuario):
         quilometragem = rota_criada[0]['legs'][0]['distance']['text']
         tempo = rota_criada[0]['legs'][0]['duration']['text']
 
-        sleep(2)
-        limpar_tela()
-        print(f'Quilometragem: {quilometragem}')
-        print(f'Tempo estimado: {tempo}')
-
-        input('\nPressione ENTER para finalizar...')
+        finalizar_passeio(quilometragem, tempo, usuario, rota['nome'])
         break
+
+      elif tipo_rota_escolhido == 2:
+        rota_escolhida = rota_personalizada(pontos)
+        if rota_escolhida == False:
+          return
+        
+        limpar_tela()
+        coordenadas_saida = geolocalizacao.pedir_endereco()
+        sleep(2)
+
+        rota_criada = geolocalizacao.criar_rota(coordenadas_saida, modo_locomocao_escolhido, rota_escolhida)
+        geolocalizacao.criar_mapa(rota_criada, coordenadas_saida, rota_escolhida)
+
+        quilometragem = rota_criada[0]['legs'][0]['distance']['text']
+        tempo = rota_criada[0]['legs'][0]['duration']['text']
+
+        finalizar_passeio(quilometragem, tempo, usuario, 'personalizada')
+        break
+

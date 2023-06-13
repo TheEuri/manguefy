@@ -58,6 +58,8 @@ def pedir_endereco():
 def criar_rota(saida, modo_locomocao, pontos):
   vetor_pontos = []
 
+  print(pontos)
+
   for ponto in pontos:
     vetor_pontos.append(ponto['coordenadas'])
 
